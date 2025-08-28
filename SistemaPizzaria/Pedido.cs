@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Diagnostics.Eventing.Reader;
 using System.Drawing;
 using System.Linq;
 using System.Text;
@@ -30,6 +31,46 @@ namespace SistemaPizzaria
             cmbTamanhoPizza.Items.Add("Pequena- R$ 20,00");
             cmbTamanhoPizza.Items.Add("Média- R$ 30,00");
             cmbTamanhoPizza.Items.Add("Grande- R$ 50,00");
+        }
+
+        private void btnCalcular_Click(object sender, EventArgs e)
+        {
+            //DECLARANDO AS VARIAVEIS
+            double valorPizza = 0, valorOpcao = 0, valorTotal = 0;
+            if (cmbTamanhoPizza.SelectedIndex == 0)
+            {
+                valorPizza = 20;
+            }
+            else if (cmbTamanhoPizza.SelectedIndex == 1)
+            {
+                valorPizza = 30;
+            }else if (cmbTamanhoPizza.SelectedIndex == 2)
+            {
+                valorPizza = 50;
+            }
+            if (chkBorda.Checked == true)
+            {
+                valorOpcao = + 5;
+            }
+            if (chkTempero.Checked ==true)
+            {
+                valorOpcao = + 6;
+            }
+            if (chkCebola.Checked == true)
+            {
+                valorOpcao = + 3;
+            }
+            if (chkCatupiry.Checked == true)
+            {
+                valorOpcao = + 4;
+            }
+            else 
+            {
+            }
+            valorTotal = valorPizza + valorOpcao;
+            txtValorPizza.Text =Convert.ToString(valorPizza);
+            txtValorOpcionais.Text =Convert.ToString(valorOpcao);
+            txtValorPagar.Text = Convert.ToString(valorTotal);
         }
     }
 }

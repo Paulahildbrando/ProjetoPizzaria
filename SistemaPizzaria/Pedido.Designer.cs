@@ -201,6 +201,7 @@
             this.btnCalcular.TabIndex = 12;
             this.btnCalcular.Text = "Calcular";
             this.btnCalcular.UseVisualStyleBackColor = true;
+            this.btnCalcular.Click += new System.EventHandler(this.btnCalcular_Click);
             // 
             // btnSair
             // 
@@ -216,7 +217,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(832, 407);
+            this.ClientSize = new System.Drawing.Size(832, 386);
             this.Controls.Add(this.btnSair);
             this.Controls.Add(this.btnCalcular);
             this.Controls.Add(this.btnSalvar);
