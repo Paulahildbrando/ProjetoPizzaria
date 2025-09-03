@@ -24,6 +24,15 @@ namespace SistemaPizzaria
 
         private void btnNovo_Click(object sender, EventArgs e)
         {
+            chkBorda.Checked = false;
+            chkCatupiry.Checked = false;
+            chkCebola.Checked = false;
+            chkTempero.Checked = false;
+
+            txtValorOpcionais.Clear();
+            txtValorPizza.Clear();
+            txtValorPagar.Clear();
+            cmbTamanhoPizza.SelectedIndex = 0;
 
         }
 
@@ -105,7 +114,7 @@ namespace SistemaPizzaria
                 try
                 {
                     //inserindo dados no banco
-                    string sql = "insert into tbPedido(tipoPizza,valorPizza,valorOpcao,valorToSqltal) values(@pizza,@vpizza,@vopcao,@total)";
+                    string sql = "insert into tbPedido(tipoPizza,valorPizza,valorOpcao,valorTotal) values(@pizza,@vpizza,@vopcao,@total)";
                     MySqlCommand cmd = new MySqlCommand(sql, con.ConnectarBD());
                     cmd.Parameters.Add("@pizza", MySqlDbType.Text).Value = cmbTamanhoPizza.Text;
                     cmd.Parameters.Add("@vpizza", MySqlDbType.Text).Value = txtValorPizza.Text;
@@ -132,6 +141,79 @@ namespace SistemaPizzaria
 
             }
 
+        }
+
+        private void dgvPedido_MouseDoubleClick(object sender, MouseEventArgs e)
+        {
+            CarregarPedido();
+        }
+        //metodo que vai carregar as informações no datagrig
+            public void CarregarPedido()
+        {
+            try 
+            {
+                txtCodigo.Text = dgvPedido.SelectedRows[0].Cells[0].Value.ToString();
+                cmbTamanhoPizza.Text = dgvPedido.SelectedRows[0].Cells[1].Value.ToString();
+                txtValorPizza.Text = dgvPedido.SelectedRows[0].Cells[2].Value.ToString();
+                txtValorOpcionais.Text = dgvPedido.SelectedRows[0].Cells[3].Value.ToString();
+                txtValorPagar.Text = dgvPedido.SelectedRows[0].Cells[4].Value.ToString();
+
+
+            }
+            catch (Exception error)
+            {
+                MessageBox.Show("Erros ao clicar" + error);
+            }
+        }
+
+        private void txtPesquisar_TextChanged(object sender, EventArgs e)
+        {
+            if(txtPesquisar.Text != "")
+            {
+                try
+                {
+                    con.ConnectarBD();
+                    MySqlCommand cmd = new MySqlCommand();
+                    cmd.CommandText = "select * from tbPedido";
+
+                    cmd.Connection = con.ConnectarBD();
+                    MySqlDataAdapter da = new MySqlDataAdapter();
+                    DataTable dt = new DataTable();
+                    da.SelectCommand = cmd;
+                    da.Fill(dt);
+                    dgvPedido.DataSource = dt;
+                    con.DesConnectarBD();
+
+                }
+                catch(Exception error)
+                {
+                    MessageBox.Show(error.Message);
+                }
+
+
+            }
+            else
+            {
+                //deixa o datagrid limpo
+                dgvPedido.DataSource = null;
+
+            }
+        }
+
+        private void btnSair_Click(object sender, EventArgs e)
+        {
+            //this.Close();
+            DialogResult sair = MessageBox.Show("Deseja sair?", "Sair", MessageBoxButtons.YesNo, MessageIcon.Information);
+            if (sair == DialogResult.No)
+            {
+                Pedido ped = new Pedido();
+                ped.Show();
+                this.Hide();
+            }
+            else
+            {
+                Application.Exit();
+            }
         }
     }
 }
